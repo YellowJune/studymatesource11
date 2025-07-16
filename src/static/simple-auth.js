@@ -3,14 +3,26 @@ let currentUserId = null;
 
 // 페이지 로드 시 초기화
 document.addEventListener("DOMContentLoaded", function() {
-    // 로컬 스토리지에서 사용자 ID 확인
-    const savedUserId = localStorage.getItem("studymate_user_id");
-    if (savedUserId) {
-        currentUserId = savedUserId;
+    // URL 쿼리 파라미터에서 user 확인
+    const urlParams = new URLSearchParams(window.location.search);
+    const userParam = urlParams.get('user');
+    
+    if (userParam) {
+        // URL에 user 파라미터가 있으면 해당 ID로 로그인
+        currentUserId = userParam;
+        localStorage.setItem("studymate_user_id", userParam);
         showMainContent();
         updateUserInfo();
     } else {
-        showIdInputForm();
+        // URL에 user 파라미터가 없으면 로컬 스토리지 확인
+        const savedUserId = localStorage.getItem("studymate_user_id");
+        if (savedUserId) {
+            currentUserId = savedUserId;
+            showMainContent();
+            updateUserInfo();
+        } else {
+            showIdInputForm();
+        }
     }
 });
 
@@ -28,6 +40,13 @@ function showMainContent() {
     // 플래너 초기화
     if (typeof initializeApp === "function") {
         initializeApp();
+    }
+}
+
+// 사용자 정보 업데이트
+function updateUserInfo() {
+    if (currentUserId) {
+        document.getElementById("current-user-display").textContent = currentUserId;
     }
 }
 
@@ -49,44 +68,33 @@ function handleIdSubmit(event) {
         return;
     }
     
-    if (userId.length < 3 || userId.length > 20) {
-        showIdMessage("사용자 ID는 3자 이상 20자 이하로 입력해주세요.", "error");
-        return;
-    }
-    
-    // 사용자 ID 저장
+    // 사용자 ID 저장 및 로그인
     currentUserId = userId;
     localStorage.setItem("studymate_user_id", userId);
     
-    showIdMessage("플래너로 이동 중...", "success");
+    showIdMessage("로그인 성공! 플래너로 이동합니다.", "success");
     
+    // 1초 후 메인 화면으로 이동
     setTimeout(() => {
         showMainContent();
         updateUserInfo();
     }, 1000);
 }
 
-// 사용자 정보 업데이트
-function updateUserInfo() {
-    if (currentUserId) {
-        const userInfoElement = document.getElementById("user-info");
-        if (userInfoElement) {
-            userInfoElement.innerHTML = `
-                <span style="color: white; margin-right: 10px;">안녕하세요, ${currentUserId}님!</span>
-                <button onclick="logout()" class="logout-btn">다른 ID로 로그인</button>
-            `;
-        }
-    }
-}
-
-// 로그아웃 (ID 변경)
+// 로그아웃 기능
 function logout() {
-    if (confirm("다른 ID로 로그인하시겠습니까?")) {
+    if (confirm("정말 로그아웃하시겠습니까?")) {
+        // 로컬 스토리지에서 사용자 ID 제거
         currentUserId = null;
         localStorage.removeItem("studymate_user_id");
         
         // 입력 필드 초기화
         document.getElementById("user-id-input").value = "";
+        
+        // URL에서 user 파라미터 제거
+        const url = new URL(window.location);
+        url.searchParams.delete('user');
+        window.history.replaceState({}, document.title, url.pathname);
         
         showIdInputForm();
     }
