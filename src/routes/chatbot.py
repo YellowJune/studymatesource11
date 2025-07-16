@@ -74,13 +74,6 @@ def handle_photo_solve(data, user):
                         "simpleText": {
                             "text": "📸 사진을 업로드해주세요!\n\n문제가 포함된 이미지를 보내주시면 다음과 같이 도와드립니다:\n\n✅ 문제 유형 분석\n✅ 단계별 풀이 과정\n✅ 최종 답안 제시\n✅ 개념 설명 및 팁\n\n수학, 과학, 영어 등 다양한 과목을 지원합니다!"
                         }
-                    }],
-                    "quickReplies": [{
-                        "label": "📷 사진 업로드",
-                        "action": "camera"
-                    }, {
-                        "label": "📁 갤러리에서 선택",
-                        "action": "gallery"
                     }]
                 }
             })
@@ -150,11 +143,6 @@ def handle_photo_solve(data, user):
                     "simpleText": {
                         "text": "🔧 이미지 분석 중 오류가 발생했습니다.\n\n다음을 확인해주세요:\n• 이미지가 선명한가요?\n• 문제가 잘 보이나요?\n• 파일 크기가 너무 크지 않나요?\n\n다시 시도해주세요!"
                     }
-                }],
-                "quickReplies": [{
-                    "label": "🔄 다시 시도",
-                    "action": "message",
-                    "messageText": "사진 문제풀이"
                 }]
             }
         })
