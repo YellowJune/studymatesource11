@@ -1,29 +1,18 @@
 // 전역 변수
-let currentUserId = 1; // 기본 사용자 ID (실제로는 URL에서 추출)
 let allTasks = [];
 let filteredTasks = [];
 let currentFilter = 'today';
 let currentDate = new Date();
 let editingTaskId = null;
 
-// 페이지 로드 시 초기화
-document.addEventListener('DOMContentLoaded', function() {
-    // URL에서 사용자 ID 추출 (경로 파라미터 방식)
-    const pathParts = window.location.pathname.split('/');
-    const userIdIndex = pathParts.indexOf('planner') + 1;
-    if (userIdIndex > 0 && userIdIndex < pathParts.length) {
-        currentUserId = pathParts[userIdIndex];
-    }
-    
-    initializeApp();
-    setupEventListeners();
-});
-
-// 앱 초기화
+// 페이지 로드 시 초기화 (인증 확인 후 실행)
+// DOMContentLoaded 이벤트는 simple-auth.js에서 처리하고,
+// simple-auth.js에서 showMainContent() 호출 시 initializeApp()을 호출합니다.
 function initializeApp() {
     updateCurrentDate();
     loadTasks();
     setupFilters();
+    setupEventListeners();
 }
 
 // 이벤트 리스너 설정
@@ -55,9 +44,17 @@ function updateCurrentDate() {
 // 할 일 목록 로드
 async function loadTasks() {
     try {
+        // simple-auth.js에서 제공하는 함수 사용
+        if (!isUserAuthenticated()) {
+            console.log('사용자가 인증되지 않음');
+            showNotification('사용자 ID를 입력해주세요.', 'info');
+            return;
+        }
+        
         showNotification('할 일 목록을 불러오는 중...', 'info');
         
-        const response = await axios.get(`/api/planner/plans/${currentUserId}`);
+        const userId = getCurrentUserId(); // simple-auth.js에서 제공하는 함수 사용
+        const response = await axios.get(`/api/planner/plans/${userId}`);
         allTasks = response.data.plans; // 'plans' 키 아래에 데이터가 있다고 가정
         
         applyFilter(currentFilter);
@@ -80,10 +77,15 @@ async function loadTasks() {
 // 할 일 추가
 async function addTask(taskData) {
     try {
+        if (!isUserAuthenticated()) {
+            showNotification('사용자 ID가 필요합니다.', 'error');
+            return;
+        }
+
         showNotification('할 일을 추가하는 중...', 'info');
         
         // 사용자 ID 추가
-        taskData.user_id = currentUserId;
+        taskData.user_id = getCurrentUserId(); // simple-auth.js에서 제공하는 함수 사용
         
         const response = await axios.post('/api/planner/plans', taskData);
         
@@ -105,10 +107,15 @@ async function addTask(taskData) {
 // 할 일 수정
 async function updateTask(taskId, taskData) {
     try {
+        if (!isUserAuthenticated()) {
+            showNotification('사용자 ID가 필요합니다.', 'error');
+            return;
+        }
+
         showNotification('할 일을 수정하는 중...', 'info');
         
         // 사용자 ID 추가
-        taskData.user_id = currentUserId;
+        taskData.user_id = getCurrentUserId(); // simple-auth.js에서 제공하는 함수 사용
         
         const response = await axios.put(`/api/planner/plans/${taskId}`, taskData);
         
@@ -160,6 +167,11 @@ async function deleteTask() {
 
 // 할 일 상태 토글
 async function toggleTaskStatus(taskId) {
+    if (!isUserAuthenticated()) {
+        showNotification('사용자 ID가 필요합니다.', 'error');
+        return;
+    }
+
     const task = allTasks.find(t => t.id === taskId);
     if (!task) return;
     
@@ -169,7 +181,7 @@ async function toggleTaskStatus(taskId) {
         const taskData = {
             ...task,
             status: newStatus,
-            user_id: currentUserId
+            user_id: getCurrentUserId() // simple-auth.js에서 제공하는 함수 사용
         };
         
         const response = await axios.put(`/api/planner/plans/${taskId}`, taskData);
