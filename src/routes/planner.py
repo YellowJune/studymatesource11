@@ -5,48 +5,9 @@ from src.models.planner import StudyPlan
 
 planner_bp = Blueprint("planner", __name__)
 
-@planner_bp.route("/plans", methods=["GET"])
-def get_user_plans():
-    """사용자의 스터디 플랜 조회 (쿼리 파라미터로 user_id 받음)"""
-    try:
-        # 쿼리 파라미터에서 user_id 추출
-        user_id = request.args.get("user_id")
-        if not user_id:
-            return jsonify({
-                "success": False,
-                "error": "user_id parameter is required"
-            }), 400
-        
-        # 날짜 범위 파라미터 처리
-        start_date_str = request.args.get("start_date")
-        end_date_str = request.args.get("end_date")
-        
-        if start_date_str and end_date_str:
-            start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
-            end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
-        else:
-            # 기본값: 전체 기간 (최근 30일부터 향후 30일까지)
-            today = date.today()
-            start_date = today - timedelta(days=30)
-            end_date = today + timedelta(days=30)
-        
-        plans = StudyPlan.query.filter(
-            StudyPlan.user_id == user_id,
-            StudyPlan.plan_date >= start_date,
-            StudyPlan.plan_date <= end_date
-        ).order_by(StudyPlan.plan_date, StudyPlan.start_time).all()
-        
-        return jsonify([plan.to_dict() for plan in plans])
-        
-    except Exception as e:
-        return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 500
-
 @planner_bp.route("/plans/<int:user_id>", methods=["GET"])
-def get_user_plans_legacy(user_id):
-    """사용자의 스터디 플랜 조회 (기존 방식 - 호환성 유지)"""
+def get_user_plans(user_id):
+    """사용자의 스터디 플랜 조회"""
     try:
         # 날짜 범위 파라미터 처리
         start_date_str = request.args.get("start_date")
@@ -218,7 +179,6 @@ def update_plan_status(plan_id):
         })
         
     except Exception as e:
-        db.session.rollback()
         return jsonify({
             "success": False,
             "error": str(e)
