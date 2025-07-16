@@ -63,18 +63,8 @@ def get_or_create_user(user_key):
 def handle_photo_solve(data, user):
     """사진 문제풀이 처리"""
     try:
-        # 카카오톡에서 이미지 URL 추출
-        image_url = None
         user_request = data.get('userRequest', {})
-        
-        # 카카오톡 이미지 처리 방식
-        if 'photo' in user_request:
-            image_url = user_request['photo']['imageUrl']
-        elif 'attachment' in user_request:
-            # 첨부파일 형태로 온 경우
-            attachment = user_request['attachment']
-            if attachment.get('type') == 'image':
-                image_url = attachment.get('payload', {}).get('url')
+        image_url = user_request['photo']['imageUrl']
         
         if not image_url:
             return jsonify({
