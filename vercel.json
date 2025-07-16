@@ -4,16 +4,28 @@
     {
       "src": "api/index.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "api/chatbot.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "src/static/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
+      "src": "/chatbot/webhook",
+      "dest": "api/chatbot.py"
+    },
+    {
       "src": "/api/(.*)",
-      "dest": "/api/index.py"
+      "dest": "api/index.py"
     },
     {
       "src": "/(.*)",
-      "dest": "/api/index.py"
+      "dest": "src/static/$1"
     }
   ]
 }
