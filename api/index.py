@@ -31,5 +31,3 @@ with app.app_context():
 
 # Vercel에서 Flask 앱을 실행하기 위한 진입점
 # Vercel은 이 `app` 객체를 사용하여 서버리스 함수를 생성합니다.
-
-
