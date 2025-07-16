@@ -8,11 +8,11 @@ let editingTaskId = null;
 
 // 페이지 로드 시 초기화
 document.addEventListener('DOMContentLoaded', function() {
-    // URL에서 사용자 ID 추출 (쿼리 파라미터 방식)
-    const urlParams = new URLSearchParams(window.location.search);
-    const userIdParam = urlParams.get('user_id');
-    if (userIdParam) {
-        currentUserId = userIdParam;
+    // URL에서 사용자 ID 추출 (경로 파라미터 방식)
+    const pathParts = window.location.pathname.split('/');
+    const userIdIndex = pathParts.indexOf('planner') + 1;
+    if (userIdIndex > 0 && userIdIndex < pathParts.length) {
+        currentUserId = pathParts[userIdIndex];
     }
     
     initializeApp();
@@ -57,8 +57,8 @@ async function loadTasks() {
     try {
         showNotification('할 일 목록을 불러오는 중...', 'info');
         
-        const response = await axios.get(`/api/planner/plans?user_id=${currentUserId}`);
-        allTasks = response.data;
+        const response = await axios.get(`/api/planner/plans/${currentUserId}`);
+        allTasks = response.data.plans; // 'plans' 키 아래에 데이터가 있다고 가정
         
         applyFilter(currentFilter);
         updateStats();
