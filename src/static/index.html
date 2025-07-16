@@ -486,85 +486,132 @@
         .notification.info {
             background: #17a2b8;
         }
+
+        /* Custom CSS for ID input form */
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        #id-message {
+            font-size: 0.9em;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-content">
-            <h1>📚 StudyMate - 스터디 플래너</h1>
-            <div class="header-stats">
-                <div class="stat-badge">
-                    <span>완료: </span><span id="header-completed">0</span>
-                </div>
-                <div class="stat-badge">
-                    <span>남은 할 일: </span><span id="header-remaining">0</span>
-                </div>
-                <div class="stat-badge">
-                    <span>완료율: </span><span id="header-rate">0%</span>
-                </div>
+    <!-- ID 입력 컨테이너 -->
+    <div id="id-input-container">
+        <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center;">
+                <h2 style="margin-bottom: 10px; color: #333;">📚 StudyMate</h2>
+                <p style="margin-bottom: 30px; color: #666;">스터디 플래너에 오신 것을 환영합니다!</p>
+                
+                <form id="id-form" onsubmit="handleIdSubmit(event)">
+                    <div class="form-group">
+                        <label class="form-label" style="text-align: left;">사용자 ID</label>
+                        <input type="text" class="form-input" id="user-id-input" required placeholder="사용자 ID를 입력하세요 (예: student123)">
+                    </div>
+                    <button type="submit" class="submit-btn">플래너 시작하기</button>
+                </form>
+                
+                <div id="id-message" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
             </div>
         </div>
     </div>
-    
-    <div class="container">
-        <div class="sidebar">
-            <button class="add-task-btn" onclick="openAddTaskModal()">
-                ➕ 새 할 일 추가
-            </button>
-            
-            <div class="filter-section">
-                <div class="filter-title">📅 날짜별</div>
-                <div class="filter-item active" data-filter="today">
-                    <span>오늘</span>
-                    <span class="filter-count" id="today-count">0</span>
-                </div>
-                <div class="filter-item" data-filter="tomorrow">
-                    <span>내일</span>
-                    <span class="filter-count" id="tomorrow-count">0</span>
-                </div>
-                <div class="filter-item" data-filter="week">
-                    <span>이번 주</span>
-                    <span class="filter-count" id="week-count">0</span>
-                </div>
-                <div class="filter-item" data-filter="all">
-                    <span>전체</span>
-                    <span class="filter-count" id="all-count">0</span>
-                </div>
-            </div>
-            
-            <div class="filter-section">
-                <div class="filter-title">📊 상태별</div>
-                <div class="filter-item" data-filter="planned">
-                    <span>계획됨</span>
-                    <span class="filter-count" id="planned-count">0</span>
-                </div>
-                <div class="filter-item" data-filter="in_progress">
-                    <span>진행중</span>
-                    <span class="filter-count" id="progress-count">0</span>
-                </div>
-                <div class="filter-item" data-filter="completed">
-                    <span>완료</span>
-                    <span class="filter-count" id="completed-count">0</span>
-                </div>
-            </div>
-            
-            <div class="filter-section">
-                <div class="filter-title">📚 과목별</div>
-                <div id="subject-filters">
-                    <!-- 과목별 필터가 동적으로 생성됩니다 -->
+
+    <!-- 메인 콘텐츠 (플래너) -->
+    <div id="main-content" style="display: none;">
+        <div class="header">
+            <div class="header-content">
+                <h1>📚 StudyMate - 스터디 플래너</h1>
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div id="user-info"></div>
+                    <div class="header-stats">
+                        <div class="stat-badge">
+                            <span>완료: </span><span id="header-completed">0</span>
+                        </div>
+                        <div class="stat-badge">
+                            <span>남은 할 일: </span><span id="header-remaining">0</span>
+                        </div>
+                        <div class="stat-badge">
+                            <span>완료율: </span><span id="header-rate">0%</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <div class="main-content">
-            <div class="date-navigation">
-                <button class="date-nav-btn" onclick="previousDay()">◀ 이전</button>
-                <div class="current-date" id="current-date">오늘</div>
-                <button class="date-nav-btn" onclick="nextDay()">다음 ▶</button>
+        <div class="container">
+            <div class="sidebar">
+                <button class="add-task-btn" onclick="openAddTaskModal()">
+                    ➕ 새 할 일 추가
+                </button>
+                
+                <div class="filter-section">
+                    <div class="filter-title">📅 날짜별</div>
+                    <div class="filter-item active" data-filter="today">
+                        <span>오늘</span>
+                        <span class="filter-count" id="today-count">0</span>
+                    </div>
+                    <div class="filter-item" data-filter="tomorrow">
+                        <span>내일</span>
+                        <span class="filter-count" id="tomorrow-count">0</span>
+                    </div>
+                    <div class="filter-item" data-filter="week">
+                        <span>이번 주</span>
+                        <span class="filter-count" id="week-count">0</span>
+                    </div>
+                    <div class="filter-item" data-filter="all">
+                        <span>전체</span>
+                        <span class="filter-count" id="all-count">0</span>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-title">📊 상태별</div>
+                    <div class="filter-item" data-filter="planned">
+                        <span>계획됨</span>
+                        <span class="filter-count" id="planned-count">0</span>
+                    </div>
+                    <div class="filter-item" data-filter="in_progress">
+                        <span>진행중</span>
+                        <span class="filter-count" id="progress-count">0</span>
+                    </div>
+                    <div class="filter-item" data-filter="completed">
+                        <span>완료</span>
+                        <span class="filter-count" id="completed-count">0</span>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-title">📚 과목별</div>
+                    <div id="subject-filters">
+                        <!-- 과목별 필터가 동적으로 생성됩니다 -->
+                    </div>
+                </div>
             </div>
             
-            <div class="task-list" id="task-list">
-                <!-- 할 일 목록이 여기에 표시됩니다 -->
+            <div class="main-content">
+                <div class="date-navigation">
+                    <button class="date-nav-btn" onclick="previousDay()">◀ 이전</button>
+                    <div class="current-date" id="current-date">오늘</div>
+                    <button class="date-nav-btn" onclick="nextDay()">다음 ▶</button>
+                </div>
+                
+                <div class="task-list" id="task-list">
+                    <!-- 할 일 목록이 여기에 표시됩니다 -->
+                </div>
             </div>
         </div>
     </div>
@@ -643,7 +690,8 @@
         </div>
     </div>
     
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="simple-auth.js"></script>
     <script src="todomate.js"></script>
 </body>
 </html>
-
