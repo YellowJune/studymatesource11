@@ -42,6 +42,7 @@
             display: flex;
             gap: 20px;
             font-size: 0.9em;
+            align-items: center;
         }
 
         .stat-badge {
@@ -49,6 +50,21 @@
             padding: 5px 12px;
             border-radius: 15px;
             backdrop-filter: blur(10px);
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
         }
 
         .container {
@@ -62,37 +78,101 @@
 
         .sidebar {
             background: white;
-            border-radius: 12px;
+            border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             height: fit-content;
-            position: sticky;
-            top: 20px;
         }
 
         .main-content {
             background: white;
-            border-radius: 12px;
+            border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             min-height: 600px;
+        }
+
+        .filter-section {
+            margin-bottom: 30px;
+        }
+
+        .filter-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #f8f9fa;
+        }
+
+        .filter-item:hover {
+            background: #e9ecef;
+        }
+
+        .filter-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .filter-count {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .filter-item.active .filter-count {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .date-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .date-nav {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .date-nav button {
+            background: #f8f9fa;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .date-nav button:hover {
+            background: #e9ecef;
         }
 
         .add-task-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 15px;
+            padding: 12px 20px;
             border-radius: 10px;
-            font-size: 16px;
             cursor: pointer;
-            width: 100%;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            font-weight: 600;
+            transition: all 0.2s ease;
         }
 
         .add-task-btn:hover {
@@ -100,199 +180,64 @@
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .filter-section {
-            margin-bottom: 20px;
-        }
-
-        .filter-title {
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .filter-item {
+        .task-list {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 12px;
-            margin: 5px 0;
-            border-radius: 8px;
-            cursor: pointer;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .task-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
             transition: all 0.2s ease;
         }
 
-        .filter-item:hover {
-            background: #f8f9fa;
+        .task-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .filter-item.active {
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .task-title {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .task-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .status-planned {
             background: #e3f2fd;
             color: #1976d2;
         }
 
-        .filter-count {
-            background: #e9ecef;
-            color: #666;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.8em;
+        .status-in_progress {
+            background: #fff3e0;
+            color: #f57c00;
         }
 
-        .filter-item.active .filter-count {
-            background: #1976d2;
-            color: white;
-        }
-
-        .date-navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 10px 0;
-        }
-
-        .date-nav-btn {
-            background: #f8f9fa;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .date-nav-btn:hover {
-            background: #e9ecef;
-        }
-
-        .current-date {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .task-list {
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-
-        .task-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 15px;
-            margin: 8px 0;
-            background: #fafbfc;
-            border-radius: 10px;
-            border-left: 4px solid #e9ecef;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .task-item:hover {
-            background: #f1f3f4;
-            transform: translateX(2px);
-        }
-
-        .task-item.completed {
-            opacity: 0.7;
-            background: #f8f9fa;
-        }
-
-        .task-item.completed .task-title {
-            text-decoration: line-through;
-            color: #666;
-        }
-
-        .task-item.high {
-            border-left-color: #f44336;
-        }
-
-        .task-item.medium {
-            border-left-color: #ff9800;
-        }
-
-        .task-item.low {
-            border-left-color: #4caf50;
-        }
-
-        .task-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            position: relative;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .task-checkbox.checked {
-            background: #4caf50;
-            border-color: #4caf50;
-        }
-
-        .task-checkbox.checked::after {
-            content: '✓';
-            position: absolute;
-            top: -2px;
-            left: 2px;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .task-content {
-            flex: 1;
-        }
-
-        .task-title {
-            font-size: 1em;
-            font-weight: 500;
-            margin-bottom: 4px;
-            color: #333;
+        .status-completed {
+            background: #e8f5e8;
+            color: #388e3c;
         }
 
         .task-meta {
             display: flex;
-            gap: 10px;
-            font-size: 0.8em;
+            gap: 15px;
+            font-size: 0.9em;
             color: #666;
-        }
-
-        .task-time {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .task-subject {
-            background: #e3f2fd;
-            color: #1976d2;
-            padding: 2px 8px;
-            border-radius: 12px;
-        }
-
-        .task-priority {
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.7em;
-            font-weight: 600;
-        }
-
-        .priority-high {
-            background: #ffebee;
-            color: #c62828;
-        }
-
-        .priority-medium {
-            background: #fff3e0;
-            color: #ef6c00;
-        }
-
-        .priority-low {
-            background: #e8f5e8;
-            color: #2e7d32;
         }
 
         .empty-state {
@@ -301,37 +246,32 @@
             color: #666;
         }
 
-        .empty-state-icon {
-            font-size: 4em;
+        .empty-state img {
+            width: 120px;
+            height: 120px;
             margin-bottom: 20px;
-            opacity: 0.3;
+            opacity: 0.5;
         }
 
         .modal {
             display: none;
             position: fixed;
-            top: 0;
+            z-index: 1000;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            backdrop-filter: blur(5px);
+            background-color: rgba(0,0,0,0.5);
         }
 
         .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
+            background-color: white;
+            margin: 5% auto;
             padding: 30px;
             border-radius: 15px;
             width: 90%;
             max-width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .modal-header {
@@ -342,25 +282,19 @@
         }
 
         .modal-title {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: 600;
-            color: #333;
         }
 
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
             cursor: pointer;
-            color: #999;
-            padding: 5px;
-            border-radius: 50%;
-            transition: all 0.2s ease;
         }
 
-        .close-btn:hover {
-            background: #f5f5f5;
-            color: #333;
+        .close:hover {
+            color: #000;
         }
 
         .form-group {
@@ -379,15 +313,13 @@
             padding: 12px;
             border: 2px solid #e9ecef;
             border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-            font-family: inherit;
+            font-size: 1em;
+            transition: border-color 0.2s ease;
         }
 
         .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .form-textarea {
@@ -396,24 +328,21 @@
         }
 
         .form-row {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
         }
 
         .submit-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 12px 30px;
             border-radius: 8px;
-            font-size: 16px;
             cursor: pointer;
+            font-weight: 600;
             width: 100%;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .submit-btn:hover {
@@ -425,35 +354,17 @@
             background: #dc3545;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
+            padding: 12px 30px;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
+            width: 100%;
             margin-top: 10px;
             transition: all 0.2s ease;
         }
 
         .delete-btn:hover {
             background: #c82333;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
-                padding: 10px;
-            }
-            
-            .header-content {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .header-stats {
-                justify-content: center;
-            }
-            
-            .sidebar {
-                position: static;
-            }
         }
 
         .notification {
@@ -464,10 +375,8 @@
             border-radius: 8px;
             color: white;
             font-weight: 600;
-            z-index: 10000;
-            max-width: 300px;
-            word-wrap: break-word;
-            transform: translateX(100%);
+            z-index: 1001;
+            transform: translateX(400px);
             transition: transform 0.3s ease;
         }
 
@@ -487,25 +396,56 @@
             background: #17a2b8;
         }
 
-        /* Custom CSS for ID input form */
-        .logout-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.2s ease;
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .header-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .logout-btn:hover {
-            background: rgba(255,255,255,0.3);
+        /* ID 입력 화면 스타일 */
+        #id-input-container {
+            display: none;
         }
 
-        #id-message {
-            font-size: 0.9em;
-            font-weight: 500;
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -530,34 +470,21 @@
         </div>
     </div>
 
-    <!-- 메인 콘텐츠 (플래너) -->
+    <!-- 메인 콘텐츠 -->
     <div id="main-content" style="display: none;">
         <div class="header">
             <div class="header-content">
                 <h1>📚 StudyMate - 스터디 플래너</h1>
-                <div style="display: flex; align-items: center; gap: 20px;">
-                    <div id="user-info"></div>
-                    <div class="header-stats">
-                        <div class="stat-badge">
-                            <span>완료: </span><span id="header-completed">0</span>
-                        </div>
-                        <div class="stat-badge">
-                            <span>남은 할 일: </span><span id="header-remaining">0</span>
-                        </div>
-                        <div class="stat-badge">
-                            <span>완료율: </span><span id="header-rate">0%</span>
-                        </div>
-                    </div>
+                <div class="header-stats">
+                    <div class="stat-badge">📅 <span id="current-date">2025년 7월 16일 수요일</span></div>
+                    <div class="stat-badge">사용자: <span id="current-user-display">-</span></div>
+                    <button class="logout-btn" onclick="logout()">로그아웃</button>
                 </div>
             </div>
         </div>
-        
+
         <div class="container">
             <div class="sidebar">
-                <button class="add-task-btn" onclick="openAddTaskModal()">
-                    ➕ 새 할 일 추가
-                </button>
-                
                 <div class="filter-section">
                     <div class="filter-title">📅 날짜별</div>
                     <div class="filter-item active" data-filter="today">
@@ -577,7 +504,7 @@
                         <span class="filter-count" id="all-count">0</span>
                     </div>
                 </div>
-                
+
                 <div class="filter-section">
                     <div class="filter-title">📊 상태별</div>
                     <div class="filter-item" data-filter="planned">
@@ -593,51 +520,64 @@
                         <span class="filter-count" id="completed-count">0</span>
                     </div>
                 </div>
-                
+
                 <div class="filter-section">
                     <div class="filter-title">📚 과목별</div>
                     <div id="subject-filters">
-                        <!-- 과목별 필터가 동적으로 생성됩니다 -->
+                        <!-- 동적으로 생성됨 -->
                     </div>
                 </div>
             </div>
-            
+
             <div class="main-content">
-                <div class="date-navigation">
-                    <button class="date-nav-btn" onclick="previousDay()">◀ 이전</button>
-                    <div class="current-date" id="current-date">오늘</div>
-                    <button class="date-nav-btn" onclick="nextDay()">다음 ▶</button>
+                <div class="date-header">
+                    <div class="date-nav">
+                        <button onclick="previousDay()">◀ 이전</button>
+                        <span id="current-date-display">2025년 7월 16일 수요일</span>
+                        <button onclick="nextDay()">다음 ▶</button>
+                    </div>
+                    <button class="add-task-btn" onclick="openTaskModal()">➕ 새 할 일 추가</button>
                 </div>
-                
-                <div class="task-list" id="task-list">
-                    <!-- 할 일 목록이 여기에 표시됩니다 -->
+
+                <div id="task-list" class="task-list">
+                    <div class="empty-state">
+                        <div style="font-size: 4em; margin-bottom: 20px;">📝</div>
+                        <h3>할 일이 없습니다</h3>
+                        <p>새로운 할 일을 추가해보세요!</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- 할 일 추가/수정 모달 -->
-    <div class="modal" id="task-modal">
+    <div id="task-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title" id="modal-title">새 할 일 추가</div>
-                <button class="close-btn" onclick="closeTaskModal()">&times;</button>
+                <h2 class="modal-title" id="modal-title">새 할 일 추가</h2>
+                <span class="close" onclick="closeTaskModal()">&times;</span>
             </div>
             
             <form id="task-form">
                 <div class="form-group">
-                    <label class="form-label">할 일 제목 *</label>
-                    <input type="text" class="form-input" id="task-title" required placeholder="예: 수학 문제집 10페이지 풀기">
+                    <label class="form-label">제목</label>
+                    <input type="text" class="form-input" id="task-title" required placeholder="할 일 제목을 입력하세요">
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">상세 설명</label>
-                    <textarea class="form-textarea" id="task-description" placeholder="할 일에 대한 자세한 설명을 입력하세요"></textarea>
+                    <label class="form-label">설명</label>
+                    <textarea class="form-textarea" id="task-description" placeholder="상세 설명을 입력하세요 (선택사항)"></textarea>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">날짜 *</label>
-                    <input type="date" class="form-input" id="task-date" required>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">날짜</label>
+                        <input type="date" class="form-input" id="task-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">과목</label>
+                        <input type="text" class="form-input" id="task-subject" placeholder="과목명 (선택사항)">
+                    </div>
                 </div>
                 
                 <div class="form-row">
@@ -653,18 +593,6 @@
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">과목</label>
-                        <select class="form-select" id="task-subject">
-                            <option value="">과목 선택</option>
-                            <option value="수학">수학</option>
-                            <option value="영어">영어</option>
-                            <option value="국어">국어</option>
-                            <option value="과학">과학</option>
-                            <option value="사회">사회</option>
-                            <option value="기타">기타</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label class="form-label">우선순위</label>
                         <select class="form-select" id="task-priority">
                             <option value="medium">보통</option>
@@ -672,16 +600,15 @@
                             <option value="low">낮음</option>
                         </select>
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">상태</label>
-                    <select class="form-select" id="task-status">
-                        <option value="planned">계획됨</option>
-                        <option value="in_progress">진행중</option>
-                        <option value="completed">완료</option>
-                        <option value="cancelled">취소</option>
-                    </select>
+                    <div class="form-group">
+                        <label class="form-label">상태</label>
+                        <select class="form-select" id="task-status">
+                            <option value="planned">계획됨</option>
+                            <option value="in_progress">진행중</option>
+                            <option value="completed">완료</option>
+                            <option value="cancelled">취소</option>
+                        </select>
+                    </div>
                 </div>
                 
                 <button type="submit" class="submit-btn">저장</button>
