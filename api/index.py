@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 # 데이터베이스 설정
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///./src/database/app.db")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:////tmp/app.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 user_db.init_app(app)
