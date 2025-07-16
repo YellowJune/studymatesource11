@@ -10,8 +10,8 @@ class StudyPlan(db.Model):
     start_time = db.Column(db.Time, nullable=True)
     end_time = db.Column(db.Time, nullable=True)
     subject = db.Column(db.String(100), nullable=True)  # 과목
-    priority = db.Column(db.String(20), default=\'medium\')  # high, medium, low
-    status = db.Column(db.String(20), default=\'planned\')  # planned, in_progress, completed, cancelled
+    priority = db.Column(db.String(20), default="medium")  # high, medium, low
+    status = db.Column(db.String(20), default="planned")  # planned, in_progress, completed, cancelled
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -20,18 +20,18 @@ class StudyPlan(db.Model):
 
     def to_dict(self):
         return {
-            \'id\': self.id,
-            \'user_id\': self.user_id,
-            \'title\': self.title,
-            \'description\': self.description,
-            \'plan_date\': self.plan_date.isoformat() if self.plan_date else None,
-            \'start_time\': self.start_time.strftime(\'%H:%M\') if self.start_time else None,
-            \'end_time\': self.end_time.strftime(\'%H:%M\') if self.end_time else None,
-            \'subject\': self.subject,
-            \'priority\': self.priority,
-            \'status\': self.status,
-            \'created_at\': self.created_at.isoformat() if self.created_at else None,
-            \'updated_at\': self.updated_at.isoformat() if self.updated_at else None
+            \"id\": self.id,
+            \"user_id\": self.user_id,
+            \"title\": self.title,
+            \"description\": self.description,
+            \"plan_date\": self.plan_date.isoformat() if self.plan_date else None,
+            \"start_time\": self.start_time.strftime(\"%H:%M\") if self.start_time else None,
+            \"end_time\": self.end_time.strftime(\"%H:%M\") if self.end_time else None,
+            \"subject\": self.subject,
+            \"priority\": self.priority,
+            \"status\": self.status,
+            \"created_at\": self.created_at.isoformat() if self.created_at else None,
+            \"updated_at\": self.updated_at.isoformat() if self.updated_at else None
         }
 
     @staticmethod
